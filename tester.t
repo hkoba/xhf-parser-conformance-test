@@ -20,18 +20,16 @@ my $target_program = do {
   }
 };
 
-chdir "$FindBin::Bin"
-  or BAIL_OUT("Can't chdir to $FindBin::Bin: $!");
-
-my @tests = <inputs/*.xhf>;
+my @tests = <$FindBin::Bin/inputs/*.xhf>;
 
 plan tests => scalar @tests;
 
 foreach my $fn (@tests) {
+  my $title = substr($fn, length($FindBin::Bin) + 1);
   local $@;
   eval {
     my $expected = do {
-      my $expFn = "expected/".basename($fn);
+      my $expFn = "$FindBin::Bin/expected/".basename($fn);
       $expFn =~ s/\.xhf$/\.yaml/;
       YAML::Syck::LoadFile($expFn);
     };
@@ -41,7 +39,7 @@ foreach my $fn (@tests) {
       YAML::Syck::Load($yaml);
     };
 
-    is_deeply $got, $expected, $fn;
+    is_deeply $got, $expected, $title;
   };
 
   if ($@) {
