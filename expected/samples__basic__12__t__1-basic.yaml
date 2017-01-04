@@ -1,0 +1,5 @@
+---
+---
+BODY: "<h2>part</h2>\nfoo from ytmpl/\n"
+FILE: index.yatt
+TITLE: 'Inheritance should work theoretically.'

@@ -1,0 +1,9 @@
+---
+---
+BODY: "<input type=\"hidden\" name=\".q1[]\" value=\"foo\">\n<input type=\"hidden\" name=\".q1[]\" value=\"bar\">\n<input type=\"hidden\" name=\".q2\" value=\"qux\">\n<input type=\"hidden\" name=\".q3\" value=\"\">\n"
+FILE: index.yatt
+PARAM: .q1[]=foo&.q1[]=bar&.q2=baz&.q2=qux
+---
+BODY: "<input type=\"hidden\" name=\".q1[a]\" value=\"1\">\n<input type=\"hidden\" name=\".q1[b]\" value=\"1\">\n<input type=\"hidden\" name=\".q2[c]\" value=\"1\">\n<input type=\"hidden\" name=\".q3[d]\" value=\"1\">\n"
+FILE: index.yatt
+PARAM: .q1[a]=1&.q1[b]=1&.q2[c]=1&.q3[d]=1

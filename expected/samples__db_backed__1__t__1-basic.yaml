@@ -1,0 +1,10 @@
+---
+REQUIRE:
+  - DBIx::Class::Schema
+  - DBD::SQLite
+  - CGI::Session
+  - Email::Simple
+  - Email::Sender
+USE_COOKIE: '1'
+---
+INCLUDE: basic.inc.xhf

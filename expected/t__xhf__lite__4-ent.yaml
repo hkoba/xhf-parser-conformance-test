@@ -1,0 +1,206 @@
+---
+YATT_CONFIG:
+  - special_entities
+  -
+    - HTML
+---
+IN: "<!yatt:args x=list>\n&yatt:HTML(:dump(:x));\n"
+OUT: "['foo','bar']\n"
+PARAM:
+  -
+    - foo
+    - bar
+TITLE: '&yatt:dump();'
+---
+IN: "<!yatt:args x=html>\n&HTML(:x);\n"
+OUT: "<h2>foo</h2>\n"
+PARAM:
+  - <h2>foo</h2>
+TITLE: '&HTML(:var);'
+---
+IN: "<!yatt:config usage=\"For template entity\">\n&yatt:template(){cf_usage};.\n"
+OUT: "For template entity.\n"
+TITLE: '&yatt:template();'
+---
+IN: "<!yatt:args x y z>\n&yatt:concat(:x,:y,foo,:z);\n"
+OUT: "ABfooC\n"
+PARAM:
+  - A
+  - B
+  - C
+TITLE: '&yatt:concat();'
+---
+IN: "<!yatt:args x=list>\n&yatt:join(-,:lexpand(:x));\n"
+OUT: "A-B-C\n"
+PARAM:
+  -
+    - A
+    - B
+    - ''
+    - C
+TITLE: '&yatt:join(); and &yatt:lexpand();'
+---
+IN: "<!yatt:args x=value>\n(&yatt:join(-,:lexpand(:x{foo}));)\n"
+OUT: "(x-y-z)\n"
+PARAM:
+  -
+    foo:
+      - x
+      - y
+      - z
+TITLE: ':lexpand(:var:path())'
+---
+IN: "<!yatt:args fmt x=list>\n&yatt:format(:fmt,:lexpand(:x));\n"
+OUT: "fooYbarXbaz\n"
+PARAM:
+  - foo%2$sbar%1$sbaz
+  -
+    - X
+    - Y
+TITLE: '&yatt:format(fmt,values);'
+---
+IN: "A &yatt:breakpoint(); B\n"
+OUT: "A  B\n"
+TITLE: '&yatt:breakpoint();'
+---
+IN: "<!yatt:args x=list>\n<?perl= &yatt:join(-,:lexpand(:x));  ?>\n"
+OUT: "A-B-C\n"
+PARAM:
+  -
+    - A
+    - B
+    - ''
+    - C
+TITLE: 'entity in pi'
+---
+IN: "<!yatt:args foo=value>\n&yatt:foo:bar:baz;\n"
+OUT: "hoehoe\n"
+PARAM:
+  -
+    bar:
+      baz: hoehoe
+TITLE: 'Nested hash &yatt:foo:bar:baz;'
+---
+IN: "<!yatt:args wname x y>\nheader\n&yatt:render(t_$wname,:x,:y);\nfooter\n\n<!yatt:widget t_h2 a b>\n<h2>&yatt:a;</h2>\n&yatt:b;\n\n<!yatt:widget t_ol a list=list>\n<ol class=\"&yatt:a;\">\n <yatt:foreach my=row list>\n <li>&yatt:row;</li>\n </yatt:foreach>\n</ol>\n"
+OUT: "header\n<h2>title</h2>\nbody\n\nfooter\n"
+PARAM:
+  - h2
+  - title
+  - body
+TITLE: 'render(name,arg...) h2'
+---
+OUT: "header\n<ol class=\"ordered\">\n \n <li>apple</li>\n \n <li>lemon</li>\n \n <li>orange</li>\n \n</ol>\n\nfooter\n"
+PARAM:
+  - ol
+  - ordered
+  -
+    - apple
+    - lemon
+    - orange
+TITLE: 'render(name,arg...) ol'
+---
+IN: "<!yatt:args ls=list>\n&yatt:render(:ls,X);\n\n<!yatt:widget foo_bar x>\nfoo &yatt:x; bar\n<!yatt:widget foo_ x>\nfooonly x=&yatt:x;\n<!yatt:widget _bar x>\nbaronly x=&yatt:x;\n"
+OUT: "foo X bar\n\n"
+PARAM:
+  -
+    - foo
+    - bar
+TITLE: 'render([foo,bar],args) => foo_bar'
+---
+OUT: "baronly x=X\n\n"
+PARAM:
+  -
+    - ~
+    - bar
+TITLE: render([=undef,bar],args);
+---
+OUT: "fooonly x=X\n\n"
+PARAM:
+  -
+    - foo
+    - ~
+TITLE: render([foo,=undef],args);
+---
+IN: "<!yatt:args>\n<yatt:my dt:value=\"&yatt:datetime(new,year,1964,month,10,day,10);\"/>\n&yatt:dt:year();\n&yatt:dt:month();\n&yatt:dt:day();\n"
+OUT: "1964\n10\n10\n"
+REQUIRE: DateTime
+TITLE: datetime
+---
+IN: "<!yatt:args url>\n&yatt:url_encode(:url);\n"
+OUT: "http://0:5000/foo%3Fx%3Dy%26z%3Dw%3Bp%3Dq\n"
+PARAM:
+  - http://0:5000/foo?x=y&z=w;p=q
+TITLE: url_encode
+---
+IN: "ja->&yatt:alternative(ja,[en,ja]);\nen->&yatt:alternative(en,[en,ja]);\nx->&yatt:alternative(x,[en,ja]);\n"
+OUT: "ja->en\nen->ja\nx->en\n"
+TITLE: alternative
+---
+IN: "<!yatt:args url list=list>\n&yatt:append_params(:url,:lexpand(:list));\n"
+OUT: "http://0:5000/foo?nx=%2Fbar%3Fa%3Db\n"
+PARAM:
+  - http://0:5000/foo
+  -
+    -
+      - nx
+      - /bar?a=b
+TITLE: append_params
+---
+OUT: "http://0:5000/bar?x=y&amp;aaa=bbb&amp;ccc=ddd&amp;aaa=fff\n"
+PARAM:
+  - http://0:5000/bar?x=y
+  -
+    -
+      - aaa
+      - bbb
+    -
+      - ccc
+      - ddd
+    -
+      - aaa
+      - fff
+TITLE: 'append_params(more params)'
+---
+OUT: "http://0:5000/baz?x=Y\n"
+PARAM:
+  - http://0:5000/baz?x=X
+  -
+    -
+      - x
+      - Y
+TITLE: 'append_params(replace same param)'
+---
+IN: "<!yatt:args x y z=\"?none\">\n&yatt:default(:x,:y,:z);\n"
+OUT: "none\n"
+PARAM: []
+TITLE: ':default(,,none) => none'
+---
+OUT: '0
+'
+PARAM:
+  - ''
+  - '0'
+TITLE: ':default(,0,none) => 0'
+---
+OUT: "ok\n"
+PARAM:
+  - ok
+  - '0'
+TITLE: ':default(ok,0,none) => ok'
+---
+IN: "<!yatt:args x y z=\"?none\">\n&yatt:coalesce(:x,:y,:z);\n"
+OUT: "none\n"
+PARAM: []
+TITLE: ':coalesce(=undef,=undef,none) => none'
+---
+OUT: "\n"
+PARAM:
+  - ''
+  - ''
+TITLE: ':coalesce(=undef,,none) => (empty)'
+---
+OUT: "ok\n"
+PARAM:
+  - ok
+  - '0'
+TITLE: ':coalesce(ok,0,none) => ok'
