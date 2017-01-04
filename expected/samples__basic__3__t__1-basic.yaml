@@ -1,7 +1,8 @@
----
----
-BODY: "Hello   <b>W</b>orld!\n"
-FILE: index.yatt
-HEADER:
-  - Content-type
-  - '^text/html; charset="?utf-8"?'
+--- 
+- ~
+- 
+  BODY: "Hello   <b>W</b>orld!\n"
+  FILE: index.yatt
+  HEADER: 
+    - Content-type
+    - "^text/html; charset=\"?utf-8\"?"

@@ -1,59 +1,60 @@
----
----
-IN: "<yatt:my x y z/>\n&yatt:x; &yatt:y; &yatt:z;\n"
-OUT: "  \n"
-TITLE: 'my varonly'
----
-IN: "<yatt:my x=foo y='bar' z=\"baz\"/>\n&yatt:x; &yatt:y; &yatt:z;\n"
-OUT: "foo bar baz\n"
-TITLE: 'my text'
----
-IN: "<yatt:my x:scalar=3 y:list='(&yatt:x;) x &yatt:x;'/>\n&yatt:x; &yatt:y[0]; &yatt:y[1]; &yatt:y[2];\n"
-OUT: "3 3 3 3\n"
-TITLE: 'my scalar/list'
----
-IN: "<yatt:my x=foo y>\n  <h2>&yatt:x;</h2>\n</yatt:my>\n&yatt:y;\n"
-OUT: "\n  <h2>foo</h2>\n\n"
-TITLE: 'my body html'
----
-IN: "<yatt:my tmp>[<yatt:foo x=\"3\" />]</yatt:my>\n(&yatt:tmp;)\n\n<!yatt:widget foo x>\n<h2>&yatt:x;</h2>\n"
-OUT: "([<h2>3</h2>\n])\n"
-TITLE: 'my body html with widget invocation'
----
-IN: "<yatt:my x=foo y:code>\n  <h2>&yatt:x;</h2>\n</yatt:my>\n&yatt:y();\n"
-OUT: "\n  <h2>foo</h2>\n\n"
-TITLE: 'my body code'
----
-IN: "<yatt:my foo>\n<:yatt:x:html ><h2>&yatt:foo;</h2></:yatt:x:html>\n<b>foo</b>\n<:yatt:y:html /><h3>&yatt:foo;</h3>\n</yatt:my>\n&yatt:x;\n&yatt:y;\n"
-OUT: "<h2>\n<b>foo</b>\n</h2>\n<h3>\n<b>foo</b>\n</h3>\n\n"
-TITLE: 'my att-elem'
----
-IN: "<yatt:block><yatt:my x=\"foo\"/>\n  &yatt:x;\n</yatt:block>\n<yatt:block><yatt:my x=\"bar\"/>\n  &yatt:x;\n</yatt:block>\n"
-OUT: "  foo\n  bar\n\n"
-TITLE: 'block my'
----
-ERROR: "No such variable 'x'"
-IN: "<yatt:block><yatt:my x=\"foo\"/>\n  &yatt:x;\n</yatt:block>\n&yatt:x;\n"
-TITLE: 'block my error'
----
-IN: "<!yatt:args x y>\n<yatt:my [code:code src:source]>\n  <h2>&yatt:x;</h2>\n  &yatt:y;\n</yatt:my>\n<pre>\n&yatt:src;\n</pre>\n&yatt:code();\n"
-OUT: "<pre>\n  &lt;h2&gt;&amp;yatt:x;&lt;/h2&gt;\n  &amp;yatt:y;\n</pre>\n\n  <h2>foo</h2>\n  bar\n\n"
-PARAM:
-  - foo
-  - bar
-TITLE: 'my body source and code'
----
-ERROR: "Conflicting variable 'x' \\(previously defined at line 1\\)"
-IN: "<!yatt:args x y>\n<yatt:my x/>\n"
-TITLE: 'Conflict detection'
----
-FILE: otherfile.yatt
-IN: "<yatt:my x=\"foo\"/>\n&yatt:x;\n"
----
-IN: "<yatt:my x=\"bar\"/>\n<yatt:otherfile/>\n&yatt:x;\n"
-OUT: "foo\nbar\n"
-TITLE: 'Scope isolation.'
----
-IN: "<yatt:my x>\n  <yatt:foreach my=c list='\"\\x{6f22}\", \"\\x{5b57}\"'>\n    &yatt:c;\n  </yatt:foreach>\n</yatt:my>\n&yatt:x;\n"
-OUT: "\n  \n    漢\n  \n    字\n  \n\n"
-TITLE: 'Wide char in my code'
+--- 
+- ~
+- 
+  IN: "<yatt:my x y z/>\n&yatt:x; &yatt:y; &yatt:z;\n"
+  OUT: "  \n"
+  TITLE: my varonly
+- 
+  IN: "<yatt:my x=foo y='bar' z=\"baz\"/>\n&yatt:x; &yatt:y; &yatt:z;\n"
+  OUT: "foo bar baz\n"
+  TITLE: my text
+- 
+  IN: "<yatt:my x:scalar=3 y:list='(&yatt:x;) x &yatt:x;'/>\n&yatt:x; &yatt:y[0]; &yatt:y[1]; &yatt:y[2];\n"
+  OUT: "3 3 3 3\n"
+  TITLE: my scalar/list
+- 
+  IN: "<yatt:my x=foo y>\n  <h2>&yatt:x;</h2>\n</yatt:my>\n&yatt:y;\n"
+  OUT: "\n  <h2>foo</h2>\n\n"
+  TITLE: my body html
+- 
+  IN: "<yatt:my tmp>[<yatt:foo x=\"3\" />]</yatt:my>\n(&yatt:tmp;)\n\n<!yatt:widget foo x>\n<h2>&yatt:x;</h2>\n"
+  OUT: "([<h2>3</h2>\n])\n"
+  TITLE: my body html with widget invocation
+- 
+  IN: "<yatt:my x=foo y:code>\n  <h2>&yatt:x;</h2>\n</yatt:my>\n&yatt:y();\n"
+  OUT: "\n  <h2>foo</h2>\n\n"
+  TITLE: my body code
+- 
+  IN: "<yatt:my foo>\n<:yatt:x:html ><h2>&yatt:foo;</h2></:yatt:x:html>\n<b>foo</b>\n<:yatt:y:html /><h3>&yatt:foo;</h3>\n</yatt:my>\n&yatt:x;\n&yatt:y;\n"
+  OUT: "<h2>\n<b>foo</b>\n</h2>\n<h3>\n<b>foo</b>\n</h3>\n\n"
+  TITLE: my att-elem
+- 
+  IN: "<yatt:block><yatt:my x=\"foo\"/>\n  &yatt:x;\n</yatt:block>\n<yatt:block><yatt:my x=\"bar\"/>\n  &yatt:x;\n</yatt:block>\n"
+  OUT: "  foo\n  bar\n\n"
+  TITLE: block my
+- 
+  ERROR: No such variable 'x'
+  IN: "<yatt:block><yatt:my x=\"foo\"/>\n  &yatt:x;\n</yatt:block>\n&yatt:x;\n"
+  TITLE: block my error
+- 
+  IN: "<!yatt:args x y>\n<yatt:my [code:code src:source]>\n  <h2>&yatt:x;</h2>\n  &yatt:y;\n</yatt:my>\n<pre>\n&yatt:src;\n</pre>\n&yatt:code();\n"
+  OUT: "<pre>\n  &lt;h2&gt;&amp;yatt:x;&lt;/h2&gt;\n  &amp;yatt:y;\n</pre>\n\n  <h2>foo</h2>\n  bar\n\n"
+  PARAM: 
+    - foo
+    - bar
+  TITLE: my body source and code
+- 
+  ERROR: Conflicting variable 'x' \(previously defined at line 1\)
+  IN: "<!yatt:args x y>\n<yatt:my x/>\n"
+  TITLE: Conflict detection
+- 
+  FILE: otherfile.yatt
+  IN: "<yatt:my x=\"foo\"/>\n&yatt:x;\n"
+- 
+  IN: "<yatt:my x=\"bar\"/>\n<yatt:otherfile/>\n&yatt:x;\n"
+  OUT: "foo\nbar\n"
+  TITLE: Scope isolation.
+- 
+  IN: "<yatt:my x>\n  <yatt:foreach my=c list='\"\\x{6f22}\", \"\\x{5b57}\"'>\n    &yatt:c;\n  </yatt:foreach>\n</yatt:my>\n&yatt:x;\n"
+  OUT: "\n  \n    漢\n  \n    字\n  \n\n"
+  TITLE: Wide char in my code

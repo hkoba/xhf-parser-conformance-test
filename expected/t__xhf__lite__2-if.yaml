@@ -1,63 +1,64 @@
----
----
-IN: "<!yatt:args x>\n<yatt:if \"&yatt:x; >= 2\">\n<h2>Hello</h2>\n</yatt:if>world!\n"
-OUT: "world!\n"
-PARAM:
-  - '1'
-TITLE: 'ifonly, nameless'
----
-OUT: "<h2>Hello</h2>\nworld!\n"
-PARAM:
-  - '2'
----
-IN: "<!yatt:args x>\n<yatt:if if=\"&yatt:x; >= 2\">\n<h2>Hello</h2>\n</yatt:if>world!\n"
-OUT: "world!\n"
-PARAM:
-  - '1'
-TITLE: 'ifonly, if='
----
-OUT: "<h2>Hello</h2>\nworld!\n"
-PARAM:
-  - '2'
----
-IN: "<!yatt:args x>\n<h2>Hello</h2>\n<yatt:if \"&yatt:x; >= 2\">\nworld!\n<:yatt:else/>\nspace!\n</yatt:if>\n"
-OUT: "<h2>Hello</h2>\nspace!\n\n"
-PARAM:
-  - '1'
-TITLE: 'if else'
----
-OUT: "<h2>Hello</h2>\nworld!\n\n"
-PARAM:
-  - '2'
----
-IN: "<!yatt:args x>\n<h2>Hello</h2>\n<yatt:if \"not defined &yatt:x;\">\nspace!\n<:yatt:else if=\"&yatt:x; >= 2\"/>\nworld!\n<:yatt:else/>\ndecades!\n</yatt:if>\n"
-OUT: "<h2>Hello</h2>\nspace!\n\n"
-TITLE: 'if elsif else'
----
-OUT: "<h2>Hello</h2>\ndecades!\n\n"
-PARAM:
-  - '1'
----
-OUT: "<h2>Hello</h2>\nworld!\n\n"
-PARAM:
-  - '2'
----
-IN: "<!yatt:args x>\n<h2>Hello</h2>\n<yatt:if \"not defined &yatt:x;\">space!\n<:yatt:else if=\"&yatt:x; >= 2\"/>world!\n<:yatt:else/>decades!\n</yatt:if>\n"
-OUT: "<h2>Hello</h2>\nspace!\n\n"
-TITLE: 'if elsif else, inline style.'
----
-OUT: "<h2>Hello</h2>\ndecades!\n\n"
-PARAM:
-  - '1'
----
-OUT: "<h2>Hello</h2>\nworld!\n\n"
-PARAM:
-  - '2'
----
-IN: "You should see empty line:\n<yatt:if \"0\">\n But it is not!\n</yatt:if>\n"
-OUT: "You should see empty line:\n\n"
-TITLE: 'if 0 correctly hides body'
----
-IN: "You should see empty line:\n<yatt:if if=\"0\">\n But it is not!\n</yatt:if>\n"
-OUT: "You should see empty line:\n\n"
-TITLE: 'yatt:if if="0" correctly hides body too.'
+--- 
+- ~
+- 
+  IN: "<!yatt:args x>\n<yatt:if \"&yatt:x; >= 2\">\n<h2>Hello</h2>\n</yatt:if>world!\n"
+  OUT: "world!\n"
+  PARAM: 
+    - 1
+  TITLE: ifonly, nameless
+- 
+  OUT: "<h2>Hello</h2>\nworld!\n"
+  PARAM: 
+    - 2
+- 
+  IN: "<!yatt:args x>\n<yatt:if if=\"&yatt:x; >= 2\">\n<h2>Hello</h2>\n</yatt:if>world!\n"
+  OUT: "world!\n"
+  PARAM: 
+    - 1
+  TITLE: ifonly, if=
+- 
+  OUT: "<h2>Hello</h2>\nworld!\n"
+  PARAM: 
+    - 2
+- 
+  IN: "<!yatt:args x>\n<h2>Hello</h2>\n<yatt:if \"&yatt:x; >= 2\">\nworld!\n<:yatt:else/>\nspace!\n</yatt:if>\n"
+  OUT: "<h2>Hello</h2>\nspace!\n\n"
+  PARAM: 
+    - 1
+  TITLE: if else
+- 
+  OUT: "<h2>Hello</h2>\nworld!\n\n"
+  PARAM: 
+    - 2
+- 
+  IN: "<!yatt:args x>\n<h2>Hello</h2>\n<yatt:if \"not defined &yatt:x;\">\nspace!\n<:yatt:else if=\"&yatt:x; >= 2\"/>\nworld!\n<:yatt:else/>\ndecades!\n</yatt:if>\n"
+  OUT: "<h2>Hello</h2>\nspace!\n\n"
+  TITLE: if elsif else
+- 
+  OUT: "<h2>Hello</h2>\ndecades!\n\n"
+  PARAM: 
+    - 1
+- 
+  OUT: "<h2>Hello</h2>\nworld!\n\n"
+  PARAM: 
+    - 2
+- 
+  IN: "<!yatt:args x>\n<h2>Hello</h2>\n<yatt:if \"not defined &yatt:x;\">space!\n<:yatt:else if=\"&yatt:x; >= 2\"/>world!\n<:yatt:else/>decades!\n</yatt:if>\n"
+  OUT: "<h2>Hello</h2>\nspace!\n\n"
+  TITLE: if elsif else, inline style.
+- 
+  OUT: "<h2>Hello</h2>\ndecades!\n\n"
+  PARAM: 
+    - 1
+- 
+  OUT: "<h2>Hello</h2>\nworld!\n\n"
+  PARAM: 
+    - 2
+- 
+  IN: "You should see empty line:\n<yatt:if \"0\">\n But it is not!\n</yatt:if>\n"
+  OUT: "You should see empty line:\n\n"
+  TITLE: if 0 correctly hides body
+- 
+  IN: "You should see empty line:\n<yatt:if if=\"0\">\n But it is not!\n</yatt:if>\n"
+  OUT: "You should see empty line:\n\n"
+  TITLE: yatt:if if="0" correctly hides body too.

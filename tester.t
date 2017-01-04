@@ -5,7 +5,7 @@ use FindBin;
 use File::Basename;
 use Encode;
 
-use YAML::Tiny;
+use YAML::Syck;
 use Test::More;
 
 my $target_program = $ENV{TARGET} || "$FindBin::Bin/expected/xhf2yaml.pl";
@@ -20,12 +20,12 @@ foreach my $fn (@tests) {
     my $expected = do {
       my $expFn = "expected/".basename($fn);
       $expFn =~ s/\.xhf$/\.yaml/;
-      YAML::Tiny->read($expFn);
+      YAML::Syck::LoadFile($expFn);
     };
 
     my $got = do {
       my $yaml = qx($target_program $fn);
-      YAML::Tiny->read_string(decode_utf8 $yaml);
+      YAML::Syck::Load($yaml);
     };
 
     is_deeply $got, $expected, $fn;

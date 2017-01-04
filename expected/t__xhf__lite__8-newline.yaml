@@ -1,20 +1,21 @@
----
----
-IN: "<!yatt:config ignore_trailing_newlines>\n<!yatt:args x y>\n<yatt:foo x/>bar<yatt:baz y/>\n\n<!yatt:widget foo x>\n&yatt:x;foo\n\n<!yatt:widget baz y>\nbaz&yatt:y;\n\n\n"
-OUT: AfoobarbazB
-PARAM:
-  - A
-  - B
-TITLE: '<!yatt:config ignore_trailing_newlines>'
----
-IN: "<!yatt:config ignore_trailing_newlines=\"0\">\n<!yatt:args x y>\n<yatt:foo x/>bar<yatt:baz y/>\n\n<!yatt:widget foo x>\n&yatt:x;foo\n\n\n<!yatt:widget baz y>\nbaz&yatt:y;\n\n\n"
-OUT: "Afoo\nbarbazB\n\n"
-PARAM:
-  - A
-  - B
-TITLE: '<!yatt:config ignore_trailing_newlines="0">'
----
-IN: "<!yatt:config ignore_trailing_newlines=\"0\">\n<!yatt:args x y>\n<yatt:foo x/>bar<yatt:baz y/>\n\n<!yatt:config ignore_trailing_newlines=\"1\">\n<!yatt:widget foo x>\n&yatt:x;foo\n\n\n<!yatt:config ignore_trailing_newlines=\"0\">\n<!yatt:widget baz y>\nbaz&yatt:y;\n\n\n"
-OUT: "foobarbaz\n\n"
-SKIP: 'multiple decl of ignore_trailing_newlines is not yet supported.'
-TITLE: '0, 1, 0'
+--- 
+- ~
+- 
+  IN: "<!yatt:config ignore_trailing_newlines>\n<!yatt:args x y>\n<yatt:foo x/>bar<yatt:baz y/>\n\n<!yatt:widget foo x>\n&yatt:x;foo\n\n<!yatt:widget baz y>\nbaz&yatt:y;\n\n\n"
+  OUT: AfoobarbazB
+  PARAM: 
+    - A
+    - B
+  TITLE: <!yatt:config ignore_trailing_newlines>
+- 
+  IN: "<!yatt:config ignore_trailing_newlines=\"0\">\n<!yatt:args x y>\n<yatt:foo x/>bar<yatt:baz y/>\n\n<!yatt:widget foo x>\n&yatt:x;foo\n\n\n<!yatt:widget baz y>\nbaz&yatt:y;\n\n\n"
+  OUT: "Afoo\nbarbazB\n\n"
+  PARAM: 
+    - A
+    - B
+  TITLE: <!yatt:config ignore_trailing_newlines="0">
+- 
+  IN: "<!yatt:config ignore_trailing_newlines=\"0\">\n<!yatt:args x y>\n<yatt:foo x/>bar<yatt:baz y/>\n\n<!yatt:config ignore_trailing_newlines=\"1\">\n<!yatt:widget foo x>\n&yatt:x;foo\n\n\n<!yatt:config ignore_trailing_newlines=\"0\">\n<!yatt:widget baz y>\nbaz&yatt:y;\n\n\n"
+  OUT: "foobarbaz\n\n"
+  SKIP: multiple decl of ignore_trailing_newlines is not yet supported.
+  TITLE: 0, 1, 0

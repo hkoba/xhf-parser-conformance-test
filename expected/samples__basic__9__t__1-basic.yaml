@@ -1,7 +1,8 @@
----
----
-BODY: "16\n/\nindex\nno\n"
-FILE: subapp1/index.yatt
-HEADER:
-  - Content-type
-  - '^text/html; charset="?utf-8"?'
+--- 
+- ~
+- 
+  BODY: "16\n/\nindex\nno\n"
+  FILE: subapp1/index.yatt
+  HEADER: 
+    - Content-type
+    - "^text/html; charset=\"?utf-8\"?"
