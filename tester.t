@@ -3,12 +3,25 @@ use strict;
 use warnings FATAL => qw/all/;
 use FindBin;
 use File::Basename;
+use File::Spec;
 use Encode;
 
 use YAML::Syck;
 use Test::More;
 
-my $target_program = $ENV{TARGET} || "$FindBin::Bin/expected/xhf2yaml.pl";
+my $target_program = do {
+  if (@ARGV) {
+    my ($targ) = map {File::Spec->rel2abs($_)} shift @ARGV;
+    -x $targ
+      or BAIL_OUT("Can't exec specified executable: $targ");
+    $targ;
+  } else {
+    $ENV{TARGET} || "$FindBin::Bin/expected/xhf2yaml.pl";
+  }
+};
+
+chdir "$FindBin::Bin"
+  or BAIL_OUT("Can't chdir to $FindBin::Bin: $!");
 
 my @tests = <inputs/*.xhf>;
 
