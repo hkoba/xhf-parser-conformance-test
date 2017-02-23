@@ -20,6 +20,11 @@ my $target_program = do {
   }
 };
 
+my $run_prefix = "";
+if ($target_program =~ /\.exe$/) {
+  $run_prefix = "mono ";
+}
+
 my @tests = <$FindBin::Bin/inputs/*.xhf>;
 
 plan tests => scalar @tests;
@@ -35,7 +40,7 @@ foreach my $fn (@tests) {
     };
 
     my $got = do {
-      my $yaml = qx($target_program $fn);
+      my $yaml = qx($run_prefix$target_program $fn);
       YAML::Syck::Load($yaml);
     };
 
