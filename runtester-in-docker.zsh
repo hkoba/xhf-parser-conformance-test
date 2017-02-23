@@ -34,4 +34,10 @@ opts=(
     -w $PWD
 )
 
-docker run -it $imageName $opts $target
+sudo=()
+zmodload zsh/parameter
+if ! (($+usergroups[docker])); then
+    sudo=(sudo)
+fi
+
+$sudo docker run -it $imageName $opts $target
