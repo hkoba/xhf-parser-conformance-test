@@ -16,7 +16,7 @@ EOF
 
 #========================================
 
-zparseopts -D -K i:=o_image
+zparseopts -D -K x=o_xtrace i:=o_image
 
 if (($#o_image)); then
     imageName=${${o_image[2]}#=}
@@ -40,4 +40,6 @@ if ! (($+usergroups[docker])); then
     sudo=(sudo)
 fi
 
-$sudo docker run -it $imageName $opts $target
+((!$#o_xtrace)) || set -x
+
+$sudo docker run -it $opts $imageName $target
