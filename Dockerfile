@@ -29,4 +29,4 @@ RUN mkdir /opt/forge && cd /opt/forge && unzip /root/forge.zip && ln -vnsf /opt/
 
 #========================================
 
-ENTRYPOINT /tester/tester.t
+ENTRYPOINT ["/tester/tester.t"]
