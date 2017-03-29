@@ -9,6 +9,11 @@ use Encode;
 use YAML::Syck;
 use Test::More;
 
+use Getopt::Long;
+
+GetOptions("q|quiet", \ (my $o_quiet))
+  or exit 1;
+
 my $target_program = do {
   if (@ARGV) {
     my ($targ) = map {File::Spec->rel2abs($_)} shift @ARGV;
@@ -40,7 +45,9 @@ foreach my $fn (@tests) {
     };
 
     my $got = do {
-      my $yaml = qx($run_prefix$target_program $fn);
+      my $cmd = qq($run_prefix$target_program $fn);
+      print "# Running $cmd...\n" unless $o_quiet;
+      my $yaml = qx($cmd);
       YAML::Syck::Load($yaml);
     };
 
