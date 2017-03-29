@@ -17,11 +17,19 @@ GetOptions("q|quiet", \ (my $o_quiet))
 my $target_program = do {
   if (@ARGV) {
     my ($targ) = map {File::Spec->rel2abs($_)} shift @ARGV;
-    -x $targ
-      or BAIL_OUT("Can't exec specified executable: $targ");
+    -e $targ
+      or BAIL_OUT("Can't find target!: $targ");
     $targ;
   } else {
-    $ENV{TARGET} || "$FindBin::Bin/expected/xhf2yaml.pl";
+    die <<END;
+Usage: $0 TARGET_PROGRAM
+
+Try like following:
+
+  $0 $FindBin::Bin/expected/xhf2yaml.pl
+
+END
+
   }
 };
 
