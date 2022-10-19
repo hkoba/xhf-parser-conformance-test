@@ -1,0 +1,2 @@
+{"FILE_READABLE":["../.htdbpass"],"REQUIRE":["DBIx::Class::Schema","DBD::mysql","CGI::Session","Email::Simple","Email::Sender"],"USE_COOKIE":"1"}
+{"include":["basic.inc.xhf"]}

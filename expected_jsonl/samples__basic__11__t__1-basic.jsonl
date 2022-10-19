@@ -1,0 +1,2 @@
+{"BODY":"<h2>foo: bar</h2>\nbaz\n","FILE":"t1.yatt"}
+{"BODY":"<h2>bar: qux</h2>\nquux\n","FILE":"t2.yatt"}
